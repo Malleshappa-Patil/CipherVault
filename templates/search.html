@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="header">
+        <h1>🔍 Search Entries</h1>
+        <p>Find passwords by site name</p>
+    </div>
+    
+    <form method="GET">
+        <div class="form-group">
+            <label for="q">Search for site:</label>
+            <input type="text" id="q" name="q" 
+                   placeholder="e.g., gmail, facebook, bank..." 
+                   value="{{ request.args.get('q', '') }}" autofocus>
+        </div>
+        
+        <button type="submit" class="btn">🔍 Search</button>
+    </form>
+</div>
+{% endblock %}

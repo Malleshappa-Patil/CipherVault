@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="header">
+        <h1>🔒 Mini Password Manager</h1>
+        <p>Secure your passwords with AES-256 encryption</p>
+    </div>
+    
+    <div class="warning">
+        <strong>⚠️ Security Warning:</strong> This is a demonstration tool. 
+        Do not use for production without additional security hardening!
+    </div>
+    
+    <form method="POST" action="{{ url_for('unlock_vault') }}">
+        <div class="form-group">
+            <label for="master_password">Master Password:</label>
+            <input type="password" id="master_password" name="master_password" 
+                   placeholder="Enter your master password" required autofocus>
+        </div>
+        
+        <button type="submit" class="btn">🔓 Unlock Vault</button>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #f7fafc; border-radius: 8px;">
+        <h3>🛡️ Security Features:</h3>
+        <ul style="margin-top: 10px; padding-left: 20px;">
+            <li>AES-256-GCM encryption</li>
+            <li>PBKDF2-SHA256 key derivation</li>
+            <li>100,000+ iterations</li>
+            <li>Random salt per vault</li>
+            <li>Integrity verification</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+

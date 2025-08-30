@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="header">
+        <h1>➕ Add New Entry</h1>
+        <p>Store a new password securely</p>
+    </div>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="site">Site/Service Name:</label>
+            <input type="text" id="site" name="site" 
+                   placeholder="e.g., gmail.com, facebook.com" required autofocus>
+        </div>
+        
+        <div class="form-group">
+            <label for="username">Username/Email:</label>
+            <input type="text" id="username" name="username" 
+                   placeholder="Your username or email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" 
+                   placeholder="Your password" required>
+            <button type="button" class="reveal-btn" onclick="togglePasswordVisibility()">👁️ Show</button>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit" class="btn btn-success">💾 Save Entry</button>
+            <a href="{{ url_for('dashboard') }}" class="btn">❌ Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 15px; background: #e6fffa; border-radius: 8px; border-left: 4px solid #38b2ac;">
+        <strong>💡 Tips:</strong>
+        <ul style="margin-top: 8px; padding-left: 20px;">
+            <li>Use unique, strong passwords for each site</li>
+            <li>If an entry already exists, it will be updated</li>
+            <li>All data is encrypted with your master password</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const btn = event.target;
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        btn.textContent = '🙈 Hide';
+    } else {
+        passwordInput.type = 'password';
+        btn.textContent = '👁️ Show';
+    }
+}
+</script>
+{% endblock %}

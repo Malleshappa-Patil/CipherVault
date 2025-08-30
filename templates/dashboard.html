@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="header">
+        <h1>🏠 Password Vault Dashboard</h1>
+        <p>{{ entries|length }} entries stored securely</p>
+    </div>
+    
+    {% if entries %}
+        <div style="margin-bottom: 20px;">
+            <input type="text" id="searchInput" placeholder="🔍 Search entries..." 
+                   style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+        </div>
+        
+        <div id="entriesContainer">
+            {% for entry in entries %}
+            <div class="entry-card" data-site="{{ entry.site.lower() }}">
+                <h3>🌐 {{ entry.site }}</h3>
+                <p><strong>Username:</strong> {{ entry.username }}</p>
+                <p><strong>Password:</strong> 
+                    <span class="password-field">
+                        <span class="masked-password">{{ '*' * (entry.password|length) }}</span>
+                        <span class="real-password hidden">{{ entry.password }}</span>
+                        <button class="reveal-btn" onclick="togglePassword(this)">👁️ Show</button>
+                    </span>
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 40px;">
+            <h2>📭 No entries found</h2>
+            <p>Your vault is empty. Add some passwords to get started!</p>
+            <a href="{{ url_for('add_entry') }}" class="btn" style="margin-top: 20px;">➕ Add First Entry</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePassword(btn) {
+    const passwordField = btn.parentElement;
+    const masked = passwordField.querySelector('.masked-password');
+    const real = passwordField.querySelector('.real-password');
+    
+    if (masked.classList.contains('hidden')) {
+        masked.classList.remove('hidden');
+        real.classList.add('hidden');
+        btn.textContent = '👁️ Show';
+    } else {
+        masked.classList.add('hidden');
+        real.classList.remove('hidden');
+        btn.textContent = '🙈 Hide';
+    }
+}
+
+// Live search functionality
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    const query = e.target.value.toLowerCase();
+    const entries = document.querySelectorAll('.entry-card');
+    
+    entries.forEach(entry => {
+        const site = entry.getAttribute('data-site');
+        if (site.includes(query)) {
+            entry.style.display = 'block';
+        } else {
+            entry.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}
